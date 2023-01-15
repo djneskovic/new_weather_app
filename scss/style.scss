@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.25rem;
+}
+
+//? 420 (da bi fobro izgledalo na novijim iphoneima, tu ima malo stimanja u odnosu na minimalnu)
+//?768
+//?1024 (ovo nekad dodam, jako mali ekrani, za ovu se ne cimam puno)
+//?1280 i/ili 1360 (najcesce rezolucije)
+//?1440 najcesca Mac rezolucija
+//?1920 (veci Macovi)
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    max-width: 350px;
+    margin: 0 auto;
+    overflow: hidden;
+
+    @media screen and (min-width: 600px) {
+        max-width: 500px;
+    }
+
+    @media screen and (min-width: 800px) {
+        max-width: 700px;
+    }
+
+    @media screen and (min-width: 1200px) {
+        max-width: 900px;
+    }
+
+    @media screen and (min-width: 1440px) {
+        max-width: 1200px;
+    }
+}
+
+.error {
+    background-color: rgba(0, 0, 0, .6);
+    padding: 2rem 3rem;
+    text-align: center;
+    font-size: 1.05rem;
+    border-radius: 15px;
+    color: white;
+
+    @media screen and (min-width: 800px) {
+        font-size: 1.75rem;
+    }
+}
+
+
+
+// Main
+
+#main {
+    min-height: 100vh;
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 2rem;
+        margin-top: 2rem;
+
+        .form {
+            margin: 4rem 0;
+            display: flex;
+            flex-direction: column;
+
+            .inputText {
+                font-size: 1.5rem;
+                padding: .3rem .2rem;
+                border-radius: 10px;
+                border: 1px solid #302f4e;
+                width: 100%;
+
+                &:focus {
+                    outline: none;
+                    border: 1px solid #f6bc84;
+                }
+            }
+
+            .btns {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .btn {
+                    font-size: 1.25rem;
+                    background-color: #f6bc84;
+                    border: none;
+                    border-radius: 10px;
+                    margin: 0.8rem .5rem;
+                    padding: .3rem;
+                    color: #302f4e;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #302f4e;
+                        color: #f6bc84;
+                    }
+                }
+            }
+        }
+
+        .forecast {
+            background-color: rgba(0, 0, 0, .6);
+            width: 300px;
+            margin: 0 2rem;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+            color: white;
+
+            @media screen and (min-width: 800px) {
+                width: 700px;
+            }
+
+
+            .forecastCurrent {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+                margin-top: 1rem;
+
+                @media screen and(min-width: 800px) {
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                }
+
+                .icon {
+                    width: 90px;
+                    height: 90px;
+                }
+
+                .condition {
+                    font-size: 2rem;
+                }
+
+                .infos {
+                    margin: 1rem 0;
+
+                    .city,
+                    .country,
+                    .degree {
+                        font-size: 2rem;
+                    }
+
+                    .btnFav {
+                        padding: .5rem 1rem;
+                        font-size: 1.25rem;
+                        border: none;
+                        background: #302f4e;
+                        color: white;
+                        cursor: pointer;
+                        border-radius: 10px;
+                        margin-top: .5rem;
+
+                        &:hover {
+                            background-color: #f6bc84;
+                            color: #302f4e;
+                        }
+                    }
+                }
+            }
+
+            .forecastDays {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                text-align: center;
+
+
+                .forecastDay {
+                    margin: 1rem 0;
+                    padding: 0 .5rem;
+                    font-weight: bold;
+
+
+                    @media screen and(min-width: 800px) {
+                        margin: 2rem 0;
+                    }
+
+
+
+                    .date {
+                        font-size: 1rem;
+
+                        @media screen and(min-width: 800px) {
+                            font-size: 1.5rem;
+                        }
+                    }
+
+                    .imgSmall {
+                        width: 50px;
+                        height: 50px;
+                        margin: .5rem 0;
+
+
+                        @media screen and(min-width: 800px) {
+                            width: 70px;
+                            height: 70px;
+                        }
+                    }
+
+                    .degreeSmall {
+                        font-size: 1rem;
+
+                        @media screen and(min-width: 800px) {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Favorites
+
+#favorites {
+    min-height: 100vh;
+}
