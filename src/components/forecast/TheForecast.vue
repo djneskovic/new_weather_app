@@ -28,8 +28,7 @@
                             <p class="city">{{ city }}</p>
                             <p class="country">{{ country }}</p>
                             <p class="degree" v-if="visibleDegree">{{ degree }}<span>&#176;</span></p>
-                            <button class="btnFav">Add to Favorite</button>
-                            <button class="btnFav">Remove to Favorite</button>
+                            <button class="btnFav" @click="addToFavorite">Add to Favorite</button>
                         </div>
                     </div>
 
@@ -94,7 +93,8 @@ export default {
             degreeTomorow: '',
             degreeNextDay: '',
             errorMsg: false,
-            nameKeeper: ''
+            nameKeeper: '',
+            favoritesCities: []
         }
     },
 
@@ -132,7 +132,6 @@ export default {
                     this.dateTomorow = dateTomorow;
                     const dateNextDay = data.forecast.forecastday[2].date;
                     this.dateNextDay = dateNextDay;
-                    console.log(data.forecast.forecastday[0].day.condition.text);
                     //*
                     const iconToday = data.forecast.forecastday[0].day.condition.icon;
                     this.iconToday = iconToday;
@@ -173,7 +172,20 @@ export default {
         onClick() {
             this.redirectToCity();
             this.searchForCity();
-        }
+        },
+
+        addToFavorite() {
+            const favoriteCity = {
+                id: Math.floor(Math.random() * 100),
+                city: this.city,
+                icon: this.icon,
+                text: this.text,
+                temp: this.degree,
+            };
+
+            this.favoritesCities.push(favoriteCity);
+            localStorage.setItem('favorites', JSON.stringify(this.favoritesCities))
+        },
     },
 
     computed: {
@@ -204,103 +216,16 @@ export default {
 
     beforeRouteUpdate(to) {
         this.nameKeeper = to.params.city;
-        console.log(to);
-    }
+    },
 }
 </script>
 
-//? Ispravi za navigaciju da se zatvori kada kliknes na link
-//? Uradi storage
+//? Ispravi za navigaciju da se zatvori kada kliknes na link - uradjeno
+//? Uradi storage 
+    //* Pogledaj zasto se svaki put brise stari ls kada dodas u favorites
+    //* Napravi izgled, razmisli kako bi voleo da izgleda
 
 <style>
-/* .main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0 2rem;
-} */
-
-/* .form {
-    margin: 4rem 0;
-    display: flex;
-    flex-direction: column;
-} */
-
-/* .inputText {
-    font-size: 1.5rem;
-    padding: .3rem .2rem;
-    border-radius: 10px;
-    border: 1px solid #302f4e;
-    width: 100%;
-} */
-
-/* .inputText:focus {
-    outline: none;
-    border: 1px solid #f6bc84;
-} */
-
-/* .btns {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.btn {
-    font-size: 1.25rem;
-    background-color: #f6bc84;
-    border: none;
-    border-radius: 10px;
-    margin: 0.8rem .5rem;
-    padding: .3rem;
-    color: #302f4e;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #302f4e;
-    color: #f6bc84;
-} */
-
-/*  */
-
-/* .forecast { */
-/* width: 100%; */
-/* background-color: rgb(0, 0, 0, .15);
-    width: 300px;
-    margin: 0 2rem;
-}
-
-.forecastCurrent {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    margin-top: 1rem;
-} */
-
-/* .icon {
-    width: 100px;
-    height: 100px;
-} */
-
-/* .condition {
-    font-size: 1.5rem;
-    margin-top: -1.5rem;
-} */
-
-/* .infos {
-    margin: 1rem 0;
-}
-
-.city,
-.country,
-.degree {
-    font-size: 1.5rem;
-} */
-
 .coldWeather {
     background: url('../../assets/cold.jpg') no-repeat center center;
     background-size: cover;
