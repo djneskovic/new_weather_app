@@ -13,47 +13,50 @@
 
                 <error-message v-if="errorMsg"></error-message>
 
-                <div class="forecast" v-if="showForecast">
+                <transition name="slide" mode="out-in">
 
-                    <div class="forecastCurrent">
+                    <div class="forecast" v-if="showForecast">
 
-                        <div class="left">
+                        <div class="forecastCurrent">
 
-                            <img :src="icon" :class="{ icon: icon }">
-                            <p class="condition">{{ text }}</p>
+                            <div class="left">
 
+                                <img :src="icon" :class="{ icon: icon }">
+                                <p class="condition">{{ text }}</p>
+
+                            </div>
+
+                            <div class="infos">
+                                <p class="city">{{ city }}</p>
+                                <p class="country">{{ country }}</p>
+                                <p class="degree" v-if="visibleDegree">{{ degree }}<span>&#176;</span></p>
+                                <button class="btnFav" @click="addToFavorite">Add to Favorite</button>
+                            </div>
                         </div>
 
-                        <div class="infos">
-                            <p class="city">{{ city }}</p>
-                            <p class="country">{{ country }}</p>
-                            <p class="degree" v-if="visibleDegree">{{ degree }}<span>&#176;</span></p>
-                            <button class="btnFav" @click="addToFavorite">Add to Favorite</button>
+                        <div class="forecastDays">
+                            <div class="forecastDay">
+                                <p class="date">{{ dateToday }}</p>
+                                <img :src="iconToday" class="imgSmall">
+                                <p class="degreeSmall">{{ degreeToday }}<span v-if="visibleDegree">&#176;</span></p>
+                            </div>
+
+                            <div class="forecastDay">
+                                <p class="date">{{ dateTomorow }}</p>
+                                <img :src="iconTomorow" class="imgSmall">
+                                <p class="degreeSmall">{{ degreeTomorow }}<span v-if="visibleDegree">&#176;</span></p>
+                            </div>
+
+                            <div class="forecastDay">
+                                <p class="date">{{ dateNextDay }}</p>
+                                <img :src="iconNextDay" class="imgSmall">
+                                <p class="degreeSmall">{{ degreeNextDay }}<span v-if="visibleDegree">&#176;</span></p>
+                            </div>
                         </div>
+
                     </div>
 
-                    <div class="forecastDays">
-                        <div class="forecastDay">
-                            <p class="date">{{ dateToday }}</p>
-                            <img :src="iconToday" class="imgSmall">
-                            <p class="degreeSmall">{{ degreeToday }}<span v-if="visibleDegree">&#176;</span></p>
-                        </div>
-
-                        <div class="forecastDay">
-                            <p class="date">{{ dateTomorow }}</p>
-                            <img :src="iconTomorow" class="imgSmall">
-                            <p class="degreeSmall">{{ degreeTomorow }}<span v-if="visibleDegree">&#176;</span></p>
-                        </div>
-
-                        <div class="forecastDay">
-                            <p class="date">{{ dateNextDay }}</p>
-                            <img :src="iconNextDay" class="imgSmall">
-                            <p class="degreeSmall">{{ degreeNextDay }}<span v-if="visibleDegree">&#176;</span></p>
-                        </div>
-                    </div>
-
-                </div>
-
+                </transition>
 
             </div>
 
@@ -94,7 +97,7 @@ export default {
             degreeNextDay: '',
             errorMsg: false,
             nameKeeper: '',
-            favoritesCities: []
+            favoritesCities: [],
         }
     },
 
@@ -157,7 +160,7 @@ export default {
                     console.log('Complete');
                 })
 
-            this.inputText = ''
+            this.inputText = '';
         },
 
         redirectToCity() {
@@ -239,5 +242,15 @@ export default {
 .bg {
     background: url('../../assets/bg.jpg') no-repeat center center;
     background-size: cover;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.5s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateY(500px);
 }
 </style>

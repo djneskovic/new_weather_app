@@ -19,9 +19,10 @@
                         <li class="nav-item" @click="close"><router-link to="/forecast">Forecast</router-link></li>
                         <li class="nav-item" @click="close"><router-link to="/favorites">Favorite</router-link>
                         </li>
-                        <li class="nav-item" @click="close"><a href="">About Me</a></li>
+                        <li class="nav-item" @click="close"><router-link to="/about">About Me</router-link></li>
                     </ul>
                 </div>
+
 
             </div>
 
@@ -35,6 +36,7 @@ export default {
     data() {
         return {
             toggleMenu: false,
+
         }
     },
     methods: {
@@ -75,6 +77,22 @@ export default {
     display: none;
 }
 
+/* 
+.open {
+    animation: slide-to-left 1s ease;
+}
+
+
+@keyframes slide-to-left {
+    0% {
+        transform: translateX(500px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+} */
+
 .block {
     display: block;
 }
@@ -100,9 +118,6 @@ a {
 }
 
 @media screen and (min-width: 800px) {
-    #navigation {
-        position: none;
-    }
 
     .logo {
         width: 100px;

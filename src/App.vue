@@ -1,6 +1,11 @@
 <template>
     <the-navigation></the-navigation>
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+        <transition name="fade">
+            <component :is="Component" />
+        </transition>
+    </router-view>
+
 
 </template>
 
@@ -27,7 +32,14 @@ export default {
 }
 </script>
 
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease-in-out;
+}
 
-//? Napravi url 
-//? Napravi key 
-//? To provajduj u TheForecast
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>
