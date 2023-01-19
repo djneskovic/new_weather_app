@@ -14,7 +14,7 @@
                     <i class="fas fa-bars"></i>
                 </div>
 
-                <div class="nav-content" :class="{ block: toggleMenu }">
+                <div class="nav-content" :class="{ 'nav-content--active': toggleMenu }">
                     <ul class="nav-list">
                         <li class="nav-item" @click="close"><router-link to="/forecast">Forecast</router-link></li>
                         <li class="nav-item" @click="close"><router-link to="/favorites">Favorite</router-link>
@@ -36,7 +36,6 @@ export default {
     data() {
         return {
             toggleMenu: false,
-
         }
     },
     methods: {
@@ -54,12 +53,7 @@ export default {
 <style scoped>
 #navigation {
     background-color: #302f4e;
-    position: relative;
-}
-
-.logo {
-    width: 70px;
-    height: 70px;
+    /* position: relative; */
 }
 
 .navigation {
@@ -69,82 +63,65 @@ export default {
     padding: 0 1rem;
 }
 
-.nav-content {
-    position: absolute;
-    inset: 0;
-    text-align: center;
-    margin-top: 4rem;
-    display: none;
-}
-
-/* 
-.open {
-    animation: slide-to-left 1s ease;
-}
-
-
-@keyframes slide-to-left {
-    0% {
-        transform: translateX(500px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-} */
-
-.block {
-    display: block;
-}
-
-.nav-item {
-    padding: .5rem 0;
-    background-color: #302f4e;
-    /* height: 100%; */
-}
-
-.nav-item:hover {
-    background-color: #545384;
-}
-
-a {
-    color: #fff;
+.logo {
+    width: 100px;
+    height: 100px;
 }
 
 .hamburger {
-    cursor: pointer;
-    color: #fff;
-    font-size: 1.6rem;
+    font-size: 2rem;
+    color: white;
+    display: none;
 }
 
-@media screen and (min-width: 800px) {
+.nav-content {
+    position: static;
+}
 
+.nav-content .nav-list {
+    display: flex;
+}
+
+.nav-content .nav-list li {
+    padding: 0 1rem;
+}
+
+.nav-content .nav-list li a {
+    color: white;
+}
+
+@media screen and (max-width: 800px) {
     .logo {
-        width: 100px;
-        height: 100px;
+        width: 85px;
+        height: 85px;
     }
 
     .hamburger {
-        display: none;
+        display: block;
     }
 
     .nav-content {
-        position: relative;
-        margin: 0;
+        position: absolute;
+        width: 100%;
+        right: -100%;
+        top: 0;
+        text-align: center;
+        margin-top: 5.3rem;
+        transition: all .4s ease;
+    }
+
+    .nav-content--active {
+        right: 0;
+    }
+
+    .nav-content .nav-list {
         display: flex;
+        flex-direction: column;
     }
 
-    .nav-list {
-        display: flex;
-        margin-top: 0;
-    }
-
-    .nav-item {
-        padding: 2.3rem .7rem;
-    }
-
-    .nav-item:hover {
-        background-color: #545384;
+    .nav-content .nav-list li {
+        padding: 1rem 0;
+        background-color: #302f4e;
     }
 }
 </style>

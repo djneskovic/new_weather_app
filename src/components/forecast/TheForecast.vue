@@ -208,7 +208,7 @@ export default {
         '$route.params.city': function (city) {
             console.log(city)
             this.nameKeeper = this.inputText;
-        }
+        },
     },
 
     created() {
