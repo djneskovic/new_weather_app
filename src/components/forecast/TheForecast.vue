@@ -4,7 +4,7 @@
             <div class="main">
 
                 <form class="form" @submit.prevent="onClick">
-                    <input type="text" class="inputText" v-model="inputText">
+                    <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
                     <div class="btns">
                         <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                         <button class="btn" @click="resetForm"><i class="fas fa-sync-alt"></i></button>
@@ -73,7 +73,7 @@ export default {
         ErrorMessage
     },
 
-    inject: ['apiKey', 'apiForecastUrl'],
+    inject: ['apiKey', 'apiForecastUrl', 'apiSearchUrl'],
 
     data() {
         return {
@@ -161,6 +161,14 @@ export default {
                 })
 
             this.inputText = '';
+        },
+
+        autocompleteCity() {
+            axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
+                .then(res => {
+                    const data = res.data;
+                    console.log(data);
+                })
         },
 
         redirectToCity() {
@@ -251,6 +259,6 @@ export default {
 
 .slide-enter-from,
 .slide-leave-to {
-    transform: translateY(500px);
+    transform: translateY(-200%);
 }
 </style>
