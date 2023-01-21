@@ -105,18 +105,14 @@ export default {
         position: absolute;
         width: 100%;
         right: 0%;
-        /* top: -100%; */
         top: 0;
-        transform: translateX(100%);
         text-align: center;
         margin-top: 5.3rem;
-        transition: all .2s ease;
+        transition: all .5s ease;
         opacity: 0;
     }
 
     .nav-content--active {
-        /* top: 0; */
-        transform: translateX(0);
         opacity: 1;
     }
 
