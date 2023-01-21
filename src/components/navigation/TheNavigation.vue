@@ -105,15 +105,14 @@ export default {
         position: absolute;
         width: 100%;
         right: 0%;
-        top: 0;
+        top: -100%;
         text-align: center;
         margin-top: 5.3rem;
         transition: all .5s ease;
-        opacity: 0;
     }
 
     .nav-content--active {
-        opacity: 1;
+        top: 0;
     }
 
     .nav-content .nav-list {

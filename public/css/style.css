@@ -59,15 +59,26 @@ img {
       margin: 4rem 0;
       display: flex;
       flex-direction: column; }
-      #main .main .form .inputText {
+      #main .main .form .autocomplete .inputText {
         font-size: 1.5rem;
         padding: .3rem .2rem;
         border-radius: 10px;
         border: 1px solid #302f4e;
         width: 100%; }
-        #main .main .form .inputText:focus {
+        #main .main .form .autocomplete .inputText:focus {
           outline: none;
           border: 1px solid #f6bc84; }
+      #main .main .form .autocomplete ul {
+        text-align: center;
+        color: #302f4e;
+        background-color: #ccc;
+        border-radius: 15px; }
+        #main .main .form .autocomplete ul li {
+          padding: .5rem 0;
+          border-bottom: 1px solid #302f4e;
+          cursor: pointer; }
+          #main .main .form .autocomplete ul li:last-child {
+            border-bottom: none; }
       #main .main .form .btns {
         display: flex;
         justify-content: center;

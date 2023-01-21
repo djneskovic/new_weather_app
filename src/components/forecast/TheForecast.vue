@@ -4,7 +4,15 @@
             <div class="main">
 
                 <form class="form" @submit.prevent="onClick">
-                    <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
+                    <div class="autocomplete">
+                        <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
+                        <ul>
+                            <li>Igalo, Montenegro</li>
+                            <li>Belgrade, Serbia</li>
+                            <li>Belgrade, Serbia</li>
+                            <li>Belgrade, Serbia</li>
+                        </ul>
+                    </div>
                     <div class="btns">
                         <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                         <button class="btn" @click="resetForm"><i class="fas fa-sync-alt"></i></button>
