@@ -104,16 +104,16 @@ export default {
     .nav-content {
         position: absolute;
         width: 100%;
-        right: -100%;
-        top: 0;
+        right: 0%;
+        top: -100%;
         text-align: center;
         margin-top: 5.3rem;
         transition: all .4s ease;
-        overflow: hidden;
+
     }
 
     .nav-content--active {
-        right: 0;
+        top: 0;
     }
 
     .nav-content .nav-list {
