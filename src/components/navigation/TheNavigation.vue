@@ -61,7 +61,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    overflow: hidden;
 }
 
 .logo {
