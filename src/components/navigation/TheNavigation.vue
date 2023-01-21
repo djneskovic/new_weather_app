@@ -54,6 +54,7 @@ export default {
 #navigation {
     background-color: #302f4e;
     /* position: relative; */
+    overflow: hidden;
 }
 
 .navigation {
@@ -108,6 +109,7 @@ export default {
         text-align: center;
         margin-top: 5.3rem;
         transition: all .4s ease;
+        overflow: hidden;
     }
 
     .nav-content--active {
