@@ -6,11 +6,9 @@
                 <form class="form" @submit.prevent="onClick">
                     <div class="autocomplete">
                         <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
-                        <ul>
-                            <li>Igalo, Montenegro</li>
-                            <li>Belgrade, Serbia</li>
-                            <li>Belgrade, Serbia</li>
-                            <li>Belgrade, Serbia</li>
+                        <ul v-if="autoComplete">
+                            <auto-complete v-for="trt in trts" :key="trt.id" :cityAC="trt.city"
+                                :countryAC="trt.country"></auto-complete>
                         </ul>
                     </div>
                     <div class="btns">
@@ -75,10 +73,12 @@
 <script>
 import axios from 'axios';
 import ErrorMessage from './ErrorMessage.vue';
+import AutoComplete from './AutoComplete.vue';
 
 export default {
     components: {
-        ErrorMessage
+        ErrorMessage,
+        AutoComplete
     },
 
     inject: ['apiKey', 'apiForecastUrl', 'apiSearchUrl'],
@@ -106,6 +106,11 @@ export default {
             errorMsg: false,
             nameKeeper: '',
             favoritesCities: [],
+            autoComplete: false,
+            trts: [
+                { id: 1, city: 'Igalo', country: 'Montenegro' },
+                { id: 2, city: 'Belgrade', country: 'Serbia' },
+            ]
         }
     },
 
@@ -172,6 +177,12 @@ export default {
         },
 
         autocompleteCity() {
+            this.autoComplete = true;
+
+            if (!this.inputText) {
+                this.autoComplete = false;
+            }
+
             axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
                 .then(res => {
                     const data = res.data;

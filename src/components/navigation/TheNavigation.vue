@@ -108,7 +108,7 @@ export default {
         top: -100%;
         text-align: center;
         margin-top: 5.3rem;
-        transition: all .5s ease;
+        transition: all .2s ease;
     }
 
     .nav-content--active {
