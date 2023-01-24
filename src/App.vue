@@ -19,7 +19,7 @@ export default {
         return {
             apiKey: 'c00704bfd174489e9e685223222812',
             apiForecastUrl: 'https://api.weatherapi.com/v1/forecast.json?key=',
-            apiSearchUrl: 'http://api.weatherapi.com/v1/search.json?key='
+            apiSearchUrl: 'https://api.weatherapi.com/v1/search.json?key='
         }
     },
 
