@@ -1,11 +1,11 @@
 <template>
     <li>
-        <p>{{ cityAC }}, {{ countryAC }} </p>
+        <p>{{ cityAC }}, {{ regionAc }} ,{{ countryAC }} </p>
     </li>
 </template>
 
 <script>
 export default {
-    props: ['idAC', 'cityAC', 'countryAC']
+    props: ['idAC', 'cityAC', 'regionAc', 'countryAC']
 }
 </script>

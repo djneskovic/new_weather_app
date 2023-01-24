@@ -72,9 +72,11 @@ img {
         text-align: center;
         color: #302f4e;
         background-color: #ccc;
-        border-radius: 15px; }
+        border-radius: 15px;
+        max-height: 100px;
+        overflow-y: scroll; }
         #main .main .form .autocomplete ul li {
-          padding: .5rem 0;
+          padding: .5rem;
           border-bottom: 1px solid #302f4e;
           cursor: pointer; }
           #main .main .form .autocomplete ul li:last-child {

@@ -7,8 +7,8 @@
                     <div class="autocomplete">
                         <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
                         <ul v-if="autoComplete">
-                            <auto-complete v-for="trt in trts" :key="trt.id" :cityAC="trt.city"
-                                :countryAC="trt.country"></auto-complete>
+                            <auto-complete v-for="city in autocompleteCities" :key="city.id" :cityAC="city.name"
+                                :regionAc="city.region" :countryAC="city.country"></auto-complete>
                         </ul>
                     </div>
                     <div class="btns">
@@ -107,10 +107,7 @@ export default {
             nameKeeper: '',
             favoritesCities: [],
             autoComplete: false,
-            trts: [
-                { id: 1, city: 'Igalo', country: 'Montenegro' },
-                { id: 2, city: 'Belgrade', country: 'Serbia' },
-            ]
+            autocompleteCities: []
         }
     },
 
@@ -187,7 +184,22 @@ export default {
             axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
                 .then(res => {
                     const data = res.data;
-                    console.log(data);
+                    // const findCity = data.find(cityFind => cityFind.id === cityFind.id)
+                    // if (!findCity) {
+                    //     this.autocompleteCities = [];
+                    //     return
+                    // } else {
+                    //     this.autocompleteCities.push(findCity)
+                    //     console.log(findCity.name);
+                    // }
+
+                    data.forEach(find => {
+                        console.log(find);
+                        this.autocompleteCities.push(find)
+
+                    })
+
+
                 })
         },
 
