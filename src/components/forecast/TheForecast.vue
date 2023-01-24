@@ -125,6 +125,7 @@ export default {
                     console.log(data);
                     this.errorMsg = false;
                     this.showForecast = true;
+                    this.autoComplete = false;
                     //* 
                     const icon = data.current.condition.icon;
                     this.icon = icon;
