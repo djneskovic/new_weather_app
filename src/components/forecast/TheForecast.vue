@@ -174,37 +174,37 @@ export default {
             this.inputText = '';
         },
 
-        autocompleteCity() {
-            this.autoComplete = true;
+        // autocompleteCity() {
+        //     this.autoComplete = true;
 
-            if (!this.inputText) {
-                this.autoComplete = false;
-            }
+        //     if (!this.inputText) {
+        //         this.autoComplete = false;
+        //     }
 
-            axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
-                .then(res => {
-                    const data = res.data;
-                    // const findCity = data.find(cityFind => cityFind.id === cityFind.id)
-                    // if (!findCity) {
-                    //     this.autocompleteCities = [];
-                    //     return
-                    // } else {
-                    //     this.autocompleteCities.push(findCity)
-                    //     console.log(findCity);
-                    // }
+        //     axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
+        //         .then(res => {
+        //             const data = res.data;
+        //             // const findCity = data.find(cityFind => cityFind.id === cityFind.id)
+        //             // if (!findCity) {
+        //             //     this.autocompleteCities = [];
+        //             //     return
+        //             // } else {
+        //             //     this.autocompleteCities.push(findCity)
+        //             //     console.log(findCity);
+        //             // }
 
-                    data.forEach(find => {
-                        console.log(find);
-                        // if (find === this.autocompleteCities) {
-                        //     return
-                        // } else {
-                        //     this.autocompleteCities.push(find)
-                        // }
-                    })
+        //             data.forEach(find => {
+        //                 console.log(find);
+        //                 // if (find === this.autocompleteCities) {
+        //                 //     return
+        //                 // } else {
+        //                 //     this.autocompleteCities.push(find)
+        //                 // }
+        //             })
 
 
-                })
-        },
+        //         })
+        // },
 
         redirectToCity() {
             this.$router.push({ name: 'forecast', params: { city: this.inputText } })
@@ -230,9 +230,7 @@ export default {
             };
 
             this.favoritesCities.push(favoriteCity);
-
             localStorage.setItem('favorites', JSON.stringify(this.favoritesCities))
-
         },
     },
 
@@ -245,7 +243,8 @@ export default {
                 return 'warmWeather'
             }
             return 'bg'
-        }
+        },
+
     },
 
     watch:
@@ -260,7 +259,6 @@ export default {
         this.nameKeeper = this.$route.params.city;
         this.inputText = this.$route.params.city;
         this.searchForCity();
-        this.favoritesCities = JSON.parse(localStorage.getItem('favorites'))
     },
 
     beforeRouteUpdate(to) {
