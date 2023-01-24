@@ -190,13 +190,16 @@ export default {
                     //     return
                     // } else {
                     //     this.autocompleteCities.push(findCity)
-                    //     console.log(findCity.name);
+                    //     console.log(findCity);
                     // }
 
                     data.forEach(find => {
                         console.log(find);
-                        this.autocompleteCities.push(find)
-
+                        // if (find === this.autocompleteCities) {
+                        //     return
+                        // } else {
+                        //     this.autocompleteCities.push(find)
+                        // }
                     })
 
 
@@ -227,7 +230,9 @@ export default {
             };
 
             this.favoritesCities.push(favoriteCity);
+
             localStorage.setItem('favorites', JSON.stringify(this.favoritesCities))
+
         },
     },
 
@@ -255,6 +260,7 @@ export default {
         this.nameKeeper = this.$route.params.city;
         this.inputText = this.$route.params.city;
         this.searchForCity();
+        this.favoritesCities = JSON.parse(localStorage.getItem('favorites'))
     },
 
     beforeRouteUpdate(to) {
