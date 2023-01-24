@@ -259,6 +259,7 @@ export default {
         this.nameKeeper = this.$route.params.city;
         this.inputText = this.$route.params.city;
         this.searchForCity();
+        this.favoritesCities = JSON.parse(localStorage.getItem('favorites') || '[]')
     },
 
     beforeRouteUpdate(to) {
