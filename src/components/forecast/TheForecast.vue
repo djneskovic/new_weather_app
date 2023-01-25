@@ -196,7 +196,6 @@ export default {
                         const uniqueCity = [...new Set(this.autocompleteCities.map(x => x.id))]
                         const newUniqueCity = uniqueCity.map(id => this.autocompleteCities.find(x => x.id === id))
                         this.autocompleteCities = newUniqueCity;
-
                     })
                 })
                 .catch(() => {
@@ -204,9 +203,9 @@ export default {
                 })
         },
 
-        clickCity() {
-            const addCityToAutocomplete = this.autocompleteCities.find(x => x.id);
-            console.log(addCityToAutocomplete);
+        clickCity(e) {
+            console.log(e.target.firstChild.data);
+            this.inputText = e.target.firstChild.data;
             this.autoComplete = false;
         },
 
