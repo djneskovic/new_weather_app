@@ -87,7 +87,7 @@ img {
             flex-direction: column;
 
             .autocomplete {
-
+                position: relative;
 
                 .inputText {
                     font-size: 1.5rem;
@@ -95,21 +95,25 @@ img {
                     border-radius: 10px;
                     border: 1px solid #302f4e;
                     width: 100%;
+                    background-color: rgba(255, 255, 255, .4);
+
 
 
                     &:focus {
                         outline: none;
-                        border: 1px solid #f6bc84;
+                        border: 2px solid #f6bc84;
                     }
                 }
 
                 ul {
                     text-align: center;
                     color: #302f4e;
-                    background-color: #ccc;
+                    background-color: rgba(255, 255, 255, .4);
                     border-radius: 15px;
                     max-height: 100px;
                     overflow-y: scroll;
+                    position: absolute;
+                    width: 100%;
 
                     li {
                         padding: .5rem;

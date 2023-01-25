@@ -6,10 +6,16 @@
                 <form class="form" @submit.prevent="onClick">
                     <div class="autocomplete">
                         <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
-                        <ul v-if="autoComplete">
-                            <auto-complete v-for="city in autocompleteCities" :key="city.id" :cityAC="city.name"
-                                :regionAc="city.region" :countryAC="city.country"></auto-complete>
-                        </ul>
+
+                        <transition name="fadeSlow">
+
+                            <ul v-if="autoComplete">
+                                <auto-complete @click="clickCity" v-for="city in autocompleteCities" :key="city.id"
+                                    :cityAC="city.name" :countryAC="city.country"></auto-complete>
+                            </ul>
+
+                        </transition>
+
                     </div>
                     <div class="btns">
                         <button class="btn" type="submit"><i class="fas fa-search"></i></button>
@@ -18,6 +24,7 @@
                 </form>
 
                 <error-message v-if="errorMsg"></error-message>
+
 
                 <transition name="slide" mode="out-in">
 
@@ -107,7 +114,7 @@ export default {
             nameKeeper: '',
             favoritesCities: [],
             autoComplete: false,
-            autocompleteCities: []
+            autocompleteCities: [],
         }
     },
 
@@ -119,7 +126,6 @@ export default {
             axios.get(`${this.apiForecastUrl}${this.apiKey}&q=${this.inputText}&days=5&aqi=no&alerts=no`)
                 .then(res => {
                     const data = res.data;
-                    console.log(data);
                     this.errorMsg = false;
                     this.showForecast = true;
                     this.autoComplete = false;
@@ -174,37 +180,35 @@ export default {
             this.inputText = '';
         },
 
-        // autocompleteCity() {
-        //     this.autoComplete = true;
+        autocompleteCity() {
+            this.autoComplete = true;
 
-        //     if (!this.inputText) {
-        //         this.autoComplete = false;
-        //     }
+            if (!this.inputText) {
+                this.autoComplete = false;
+            }
 
-        //     axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
-        //         .then(res => {
-        //             const data = res.data;
-        //             // const findCity = data.find(cityFind => cityFind.id === cityFind.id)
-        //             // if (!findCity) {
-        //             //     this.autocompleteCities = [];
-        //             //     return
-        //             // } else {
-        //             //     this.autocompleteCities.push(findCity)
-        //             //     console.log(findCity);
-        //             // }
+            axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
+                .then(res => {
+                    const data = res.data;
 
-        //             data.forEach(find => {
-        //                 console.log(find);
-        //                 // if (find === this.autocompleteCities) {
-        //                 //     return
-        //                 // } else {
-        //                 //     this.autocompleteCities.push(find)
-        //                 // }
-        //             })
+                    data.forEach(find => {
+                        this.autocompleteCities.unshift(find)
+                        const uniqueCity = [...new Set(this.autocompleteCities.map(x => x.id))]
+                        const newUniqueCity = uniqueCity.map(id => this.autocompleteCities.find(x => x.id === id))
+                        this.autocompleteCities = newUniqueCity;
 
+                    })
+                })
+                .catch(() => {
+                    return this.autocompleteCities = [];
+                })
+        },
 
-        //         })
-        // },
+        clickCity() {
+            const addCityToAutocomplete = this.autocompleteCities.find(x => x.id);
+            console.log(addCityToAutocomplete);
+            this.autoComplete = false;
+        },
 
         redirectToCity() {
             this.$router.push({ name: 'forecast', params: { city: this.inputText } })
@@ -213,6 +217,8 @@ export default {
         resetForm() {
             this.showForecast = false;
             this.errorMsg = false;
+            this.autoComplete = false;
+            this.inputText = ''
         },
 
         onClick() {
@@ -229,7 +235,7 @@ export default {
                 temp: this.degree,
             };
 
-            this.favoritesCities.push(favoriteCity);
+            this.favoritesCities.unshift(favoriteCity);
             localStorage.setItem('favorites', JSON.stringify(this.favoritesCities))
         },
     },
@@ -268,11 +274,6 @@ export default {
 }
 </script>
 
-//? Ispravi za navigaciju da se zatvori kada kliknes na link - uradjeno
-//? Uradi storage 
-    //* Pogledaj zasto se svaki put brise stari ls kada dodas u favorites
-    //* Napravi izgled, razmisli kako bi voleo da izgleda
-
 <style>
 .coldWeather {
     background: url('../../assets/cold.jpg') no-repeat center center;
@@ -297,5 +298,15 @@ export default {
 .slide-enter-from,
 .slide-leave-to {
     transform: translateY(-200%);
+}
+
+.fadeSlow-enter-active,
+.fadeSlow-leave-active {
+    transition: opacity .8s ease-in-out;
+}
+
+.fadeSlow-enter-from,
+.fadeSlow-leave-to {
+    opacity: 0;
 }
 </style>

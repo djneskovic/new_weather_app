@@ -1,6 +1,6 @@
 <template>
     <li>
-        <p>{{ cityAC }}, {{ regionAc }} ,{{ countryAC }} </p>
+        <p>{{ cityAC }}, {{ countryAC }} </p>
     </li>
 </template>
 
