@@ -109,6 +109,7 @@ export default {
         text-align: center;
         margin-top: 5.3rem;
         transition: all .2s ease;
+        z-index: 2;
     }
 
     .nav-content--active {

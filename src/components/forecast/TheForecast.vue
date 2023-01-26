@@ -10,8 +10,8 @@
                         <transition name="fadeSlow">
 
                             <ul v-if="autoComplete">
-                                <auto-complete @click="clickCity" v-for="city in autocompleteCities" :key="city.id"
-                                    :cityAC="city.name" :countryAC="city.country"></auto-complete>
+                                <auto-complete @click="clickCity" v-for=" (city, index) in orderedAutoCompleteCities"
+                                    :key="index" :cityAC="city.name" :countryAC="city.country"></auto-complete>
                             </ul>
 
                         </transition>
@@ -43,7 +43,8 @@
                                 <p class="city">{{ city }}</p>
                                 <p class="country">{{ country }}</p>
                                 <p class="degree" v-if="visibleDegree">{{ degree }}<span>&#176;</span></p>
-                                <button class="btnFav" @click="addToFavorite">Add to Favorite</button>
+                                <button class="btnFav" @click="addToFavorite">Add to
+                                    Favorite</button>
                             </div>
                         </div>
 
@@ -115,6 +116,7 @@ export default {
             favoritesCities: [],
             autoComplete: false,
             autocompleteCities: [],
+            disableBtn: false,
         }
     },
 
@@ -250,6 +252,23 @@ export default {
             return 'bg'
         },
 
+        autocompleteCitiesWhichStartWithInput() {
+            if (this.inputText != '' && this.inputText) {
+                return this.autocompleteCities.filter((item) => item.name.toLowerCase().includes(this.inputText.toLowerCase()))
+            }
+            return this.autocompleteCities
+        },
+
+        autocompleteCitiesWhichNotStartWithInput() {
+            if (this.inputText != '' && this.inputText) {
+                return this.autocompleteCities.filter((item) => !item.name.toLowerCase().includes(this.inputText.toLowerCase()))
+            }
+            return this.autocompleteCities
+        },
+
+        orderedAutoCompleteCities() {
+            return [...this.autocompleteCitiesWhichStartWithInput, ...this.autocompleteCitiesWhichNotStartWithInput]
+        }
     },
 
     watch:
