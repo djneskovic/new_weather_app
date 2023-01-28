@@ -58,15 +58,21 @@ img {
     #main .main .form {
       margin: 4rem 0;
       display: flex;
-      flex-direction: column; }
+      flex-direction: column;
+      width: 100%; }
       #main .main .form .autocomplete {
-        position: relative; }
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%; }
         #main .main .form .autocomplete .inputText {
           font-size: 1.5rem;
           padding: .3rem .2rem;
           border-radius: 10px;
           border: 1px solid #302f4e;
-          width: 100%;
+          width: 80%;
           background-color: rgba(255, 255, 255, 0.4); }
           #main .main .form .autocomplete .inputText:focus {
             outline: none;
@@ -79,7 +85,9 @@ img {
           max-height: 100px;
           overflow-y: scroll;
           position: absolute;
-          width: 100%; }
+          top: 42px;
+          width: 80%;
+          z-index: 1; }
           #main .main .form .autocomplete ul li {
             padding: .5rem;
             border-bottom: 1px solid #302f4e;
