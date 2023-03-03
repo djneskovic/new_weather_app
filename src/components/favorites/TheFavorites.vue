@@ -47,7 +47,6 @@ export default {
 
     created() {
         this.getCity()
-        console.log(this.towns);
     }
 }
 

@@ -8,12 +8,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/', redirect: '/forecast'
+            path: '/', redirect: '/forecast',
         },
         { name: 'forecast', path: '/forecast/:city?', component: TheForecast },
         { name: 'favorites', path: '/favorites', component: TheFavorites },
         { name: 'about', path: '/about', component: TheAbout }
     ]
 })
+
+
+
+
 
 export default router

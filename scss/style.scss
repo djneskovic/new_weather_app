@@ -99,9 +99,13 @@ img {
                     font-size: 1.5rem;
                     padding: .3rem .2rem;
                     border-radius: 10px;
-                    border: 1px solid #302f4e;
+                    border: 1.5px solid #01071A;
                     width: 80%;
                     background-color: rgba(255, 255, 255, .4);
+
+                    @media screen and (max-width:600px) {
+                        width: 100%;
+                    }
 
 
                     &:focus {
@@ -121,6 +125,10 @@ img {
                     top: 42px;
                     width: 80%;
                     z-index: 1;
+
+                    @media screen and (max-width:600px) {
+                        width: 100%;
+                    }
 
                     li {
                         padding: .5rem;
@@ -146,11 +154,15 @@ img {
                     border-radius: 10px;
                     margin: 0.8rem .5rem;
                     padding: .3rem;
-                    color: #302f4e;
+                    color: #01071A;
                     cursor: pointer;
 
+                    @media screen and (min-width: 800px) {
+                        font-size: 1.7rem;
+                    }
+
                     &:hover {
-                        background-color: #302f4e;
+                        background-color: #01071A;
                         color: #f6bc84;
                     }
                 }
@@ -207,15 +219,15 @@ img {
                         padding: .5rem 1rem;
                         font-size: 1.25rem;
                         border: none;
-                        background: #302f4e;
-                        color: white;
+                        background: #01071A;
+                        color: #f6bc84;
                         cursor: pointer;
                         border-radius: 10px;
                         margin-top: .5rem;
 
                         &:hover {
                             background-color: #f6bc84;
-                            color: #302f4e;
+                            color: #01071A;
                         }
                     }
                 }
@@ -270,6 +282,8 @@ img {
                 }
             }
         }
+
+
     }
 }
 
@@ -343,12 +357,12 @@ img {
             border-radius: 15px;
             cursor: pointer;
             background-color: #f6bc84;
-            color: #302f4e;
+            color: #01071A;
             margin-top: .7rem;
 
 
             &:hover {
-                background-color: #302f4e;
+                background-color: #01071A;
                 color: #f6bc84;
             }
         }
@@ -443,9 +457,24 @@ img {
                     margin: .5rem;
                     padding: .5rem;
                     border-radius: 15px;
-                    color: #302f4e;
+                    color: #01071A;
                 }
             }
         }
+    }
+}
+
+// Footer
+
+#footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #01071A;
+
+    a {
+        font-size: 2.5rem;
+        color: #f6bc84;
+        padding: .3rem .7rem;
     }
 }

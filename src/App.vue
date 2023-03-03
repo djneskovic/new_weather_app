@@ -6,30 +6,34 @@
         </transition>
     </router-view>
 
+    <the-footer></the-footer>
 
 </template>
 
 <script>
-import TheNavigation from './components/navigation/TheNavigation.vue'
+import TheNavigation from './components/navigation/TheNavigation.vue';
+import TheFooter from './components/footer/TheFooter.vue';
+
 export default {
     components: {
-        TheNavigation
+        TheNavigation,
+        TheFooter
     },
-    data() {
-        return {
-            apiKey: 'c00704bfd174489e9e685223222812',
-            apiForecastUrl: 'https://api.weatherapi.com/v1/forecast.json?key=',
-            apiSearchUrl: 'https://api.weatherapi.com/v1/search.json?key='
-        }
-    },
+    // data() {
+    //     return {
+    //         apiKey: 'c00704bfd174489e9e685223222812',
+    //         apiForecastUrl: 'https://api.weatherapi.com/v1/forecast.json?key=',
+    //         apiSearchUrl: 'https://api.weatherapi.com/v1/search.json?key='
+    //     }
+    // },
 
-    provide() {
-        return {
-            apiKey: this.apiKey,
-            apiForecastUrl: this.apiForecastUrl,
-            apiSearchUrl: this.apiSearchUrl
-        }
-    }
+    // provide() {
+    //     return {
+    //         apiKey: this.apiKey,
+    //         apiForecastUrl: this.apiForecastUrl,
+    //         apiSearchUrl: this.apiSearchUrl
+    //     }
+    // }
 
 }
 </script>

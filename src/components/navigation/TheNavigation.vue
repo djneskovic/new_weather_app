@@ -7,10 +7,10 @@
             <div class="navigation">
 
                 <div class="logo">
-                    <img src="../../assets/logo.png" alt="">
+                    <img src="../../assets/logo-removebg-preview.png" alt="">
                 </div>
 
-                <div class="hamburger" @click="onClickToggle">
+                <div class="hamburger" @click="toggle">
                     <i class="fas fa-bars"></i>
                 </div>
 
@@ -35,24 +35,23 @@
 export default {
     data() {
         return {
-            toggleMenu: false,
+            toggleMenu: false
         }
     },
     methods: {
-        onClickToggle() {
+        toggle() {
             this.toggleMenu = !this.toggleMenu;
         },
         close() {
             this.toggleMenu = false;
         }
     },
-
 }
 </script>
 
 <style scoped>
 #navigation {
-    background-color: #302f4e;
+    background-color: #01071A;
     /* position: relative; */
     overflow: hidden;
 }
@@ -91,6 +90,10 @@ export default {
     color: white;
 }
 
+.nav-content .nav-list li a:hover {
+    color: #f6bc84;
+}
+
 @media screen and (max-width: 800px) {
     .logo {
         width: 85px;
@@ -99,6 +102,8 @@ export default {
 
     .hamburger {
         display: block;
+        color: #f6bc84;
+        cursor: grab;
     }
 
     .nav-content {
@@ -123,7 +128,11 @@ export default {
 
     .nav-content .nav-list li {
         padding: 1rem 0;
-        background-color: #302f4e;
+        background-color: #01071A;
+    }
+
+    .nav-content .nav-list li a:hover {
+        color: #f6bc84;
     }
 }
 </style>

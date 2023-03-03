@@ -1,330 +1,260 @@
 <template>
-    <main id="main" :class="background">
-        <div class="container">
-            <div class="main">
+	<main id="main" :class="background">
+		<div class="container">
+			<div class="main">
+				<form class="form" @submit.prevent="onClick">
+					
+					<div class="autocomplete">
+						<input 
+							type="text" 
+							class="inputText" 
+							v-model="inputText" 
+							@keyup="autoComplete" />
 
-                <form class="form" @submit.prevent="onClick">
-                    <div class="autocomplete">
-                        <input type="text" class="inputText" v-model="inputText" @keyup="autocompleteCity">
+						<transition name="fadeSlow">
+							<ul v-if="autocompleteIsVisible">
+								<auto-complete 
+									@click="clickCity(city)" 
+									v-for="(city, index) in orderedAutoCompleteCities"
+									:key="index" 
+									:cityAC="city.name" 
+									:countryAC="city.country"></auto-complete>
+							</ul>
+						</transition>
 
-                        <transition name="fadeSlow">
+					</div>
 
-                            <ul v-if="autoComplete">
-                                <auto-complete @click="clickCity" v-for=" (city, index) in orderedAutoCompleteCities"
-                                    :key="index" :cityAC="city.name" :countryAC="city.country"></auto-complete>
-                            </ul>
+					<div class="btns">
+						<button class="btn" type="submit">
+							<i class="fas fa-search"></i>
+						</button>
+						<button class="btn" @click="resetForm">
+							<i class="fas fa-sync-alt"></i>
+						</button>
+					</div>
 
-                        </transition>
+				</form>
 
-                    </div>
-                    <div class="btns">
-                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                        <button class="btn" @click="resetForm"><i class="fas fa-sync-alt"></i></button>
-                    </div>
-                </form>
+				<transition name="slide" mode="out-in">
+					<error-message v-if="getError"></error-message>
+				</transition>
 
-                <error-message v-if="errorMsg"></error-message>
-
-
-                <transition name="slide" mode="out-in">
-
-                    <div class="forecast" v-if="showForecast">
-
-                        <div class="forecastCurrent">
-
-                            <div class="left">
-
-                                <img :src="icon" :class="{ icon: icon }">
-                                <p class="condition">{{ text }}</p>
-
-                            </div>
-
-                            <div class="infos">
-                                <p class="city">{{ city }}</p>
-                                <p class="country">{{ country }}</p>
-                                <p class="degree" v-if="visibleDegree">{{ degree }}<span>&#176;</span></p>
-                                <button class="btnFav" @click="addToFavorite">Add to
-                                    Favorite</button>
-                            </div>
-                        </div>
-
-                        <div class="forecastDays">
-                            <div class="forecastDay">
-                                <p class="date">{{ dateToday }}</p>
-                                <img :src="iconToday" class="imgSmall">
-                                <p class="degreeSmall">{{ degreeToday }}<span v-if="visibleDegree">&#176;</span></p>
-                            </div>
-
-                            <div class="forecastDay">
-                                <p class="date">{{ dateTomorow }}</p>
-                                <img :src="iconTomorow" class="imgSmall">
-                                <p class="degreeSmall">{{ degreeTomorow }}<span v-if="visibleDegree">&#176;</span></p>
-                            </div>
-
-                            <div class="forecastDay">
-                                <p class="date">{{ dateNextDay }}</p>
-                                <img :src="iconNextDay" class="imgSmall">
-                                <p class="degreeSmall">{{ degreeNextDay }}<span v-if="visibleDegree">&#176;</span></p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </transition>
-
-            </div>
-
-        </div>
-    </main>
+				<transition name="slide" mode="out-in">
+					<div class="forecast" v-if="getData.showForecast">
+						<div class="forecastCurrent">
+							<div class="left">
+								<img :src="getData.icon" :class="{ icon: !!getData.icon }" />
+								<p class="condition">{{ getData.text }}</p>
+							</div>
+							<div class="infos">
+								<p class="city">{{ getData.city }}</p>
+								<p class="country">{{ getData.country }}</p>
+								<p class="degree" v-if="getData.visibleDegree">
+									{{ getData.degree }}<span>&#176;</span>
+								</p>
+								<button class="btnFav" v-if="!pera" @click="addToFavorites">
+									Add To Favorites
+								</button>
+							</div>
+						</div>
+						<div class="forecastDays">
+							<div class="forecastDay">
+								<p class="date">{{ getData.dateToday }}</p>
+								<img :src="getData.iconToday" class="imgSmall" />
+								<p class="degreeSmall">
+									{{ getData.degreeToday
+									}}<span v-if="getData.visibleDegree">&#176;</span>
+								</p>
+							</div>
+							<div class="forecastDay">
+								<p class="date">{{ getData.dateTomorow }}</p>
+								<img :src="getData.iconTomorow" class="imgSmall" />
+								<p class="degreeSmall">
+									{{ getData.degreeTomorow
+									}}<span v-if="getData.visibleDegree">&#176;</span>
+								</p>
+							</div>
+							<div class="forecastDay">
+								<p class="date">{{ getData.dateNextDay }}</p>
+								<img :src="getData.iconNextDay" class="imgSmall" />
+								<p class="degreeSmall">{{ getData.degreeNextDay }}<span
+										v-if="getData.visibleDegree">&#176;</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</transition>
+			</div>
+		</div>
+	</main>
 </template>
 
 <script>
-import axios from 'axios';
-import ErrorMessage from './ErrorMessage.vue';
-import AutoComplete from './AutoComplete.vue';
+import ErrorMessage from "./ErrorMessage.vue";
+import AutoComplete from "./AutoComplete.vue";
 
 export default {
-    components: {
-        ErrorMessage,
-        AutoComplete
-    },
+	components: {
+		ErrorMessage,
+		AutoComplete,
+	},
 
-    inject: ['apiKey', 'apiForecastUrl', 'apiSearchUrl'],
+	data() {
+		return {
+			nameKeeper: "",
+		};
+	},
 
-    data() {
-        return {
-            btnFav: false,
-            inputText: '',
-            showForecast: false,
-            icon: null,
-            text: '',
-            city: '',
-            country: '',
-            degree: null,
-            visibleDegree: false,
-            dateToday: '',
-            dateTomorow: '',
-            dateNextDay: '',
-            iconToday: null,
-            iconTomorow: null,
-            iconNextDay: null,
-            degreeToday: '',
-            degreeTomorow: '',
-            degreeNextDay: '',
-            errorMsg: false,
-            nameKeeper: '',
-            favoritesCities: [],
-            autoComplete: false,
-            autocompleteCities: [],
-            disableBtn: false,
-        }
-    },
+	methods: {
+		onClick() {
+			this.loadCity();
+			this.redirectToCity();
+		},
 
-    methods: {
-        searchForCity() {
-            if (!this.inputText) return;
-            this.showForecast = false;
+		loadCity() {
+			this.$store.dispatch("forecast/searchCity");
+		},
 
-            axios.get(`${this.apiForecastUrl}${this.apiKey}&q=${this.inputText}&days=5&aqi=no&alerts=no`)
-                .then(res => {
-                    const data = res.data;
-                    this.errorMsg = false;
-                    this.showForecast = true;
-                    this.autoComplete = false;
-                    //* 
-                    const icon = data.current.condition.icon;
-                    this.icon = icon;
-                    //*
-                    const text = data.current.condition.text;
-                    this.text = text;
-                    //*
-                    const city = data.location.name;
-                    this.city = city
-                    //*
-                    const country = data.location.country;
-                    this.country = country;
-                    //* 
-                    const degree = data.current.temp_c;
-                    this.degree = degree;
-                    this.visibleDegree = true;
-                    //*
-                    const dateToday = data.forecast.forecastday[0].date;
-                    this.dateToday = dateToday;
-                    const dateTomorow = data.forecast.forecastday[1].date;
-                    this.dateTomorow = dateTomorow;
-                    const dateNextDay = data.forecast.forecastday[2].date;
-                    this.dateNextDay = dateNextDay;
-                    //*
-                    const iconToday = data.forecast.forecastday[0].day.condition.icon;
-                    this.iconToday = iconToday;
-                    const iconTomorow = data.forecast.forecastday[1].day.condition.icon;
-                    this.iconTomorow = iconTomorow;
-                    const iconNextDay = data.forecast.forecastday[2].day.condition.icon;
-                    this.iconNextDay = iconNextDay;
-                    //*
-                    const degreeToday = data.forecast.forecastday[0].day.maxtemp_c;
-                    this.degreeToday = degreeToday;
-                    const degreeTomorow = data.forecast.forecastday[1].day.maxtemp_c;
-                    this.degreeTomorow = degreeTomorow;
-                    const degreeNextDay = data.forecast.forecastday[2].day.maxtemp_c;
-                    this.degreeNextDay = degreeNextDay;
-                    //*
-                })
-                .catch(() => {
-                    //? Napravi za error sta treba
-                    this.errorMsg = true;
-                    this.showForecast = false;
-                })
-                .finally(() => {
-                    console.log('Complete');
-                })
+		autoComplete() {
+			this.$store.dispatch("forecast/autocompleteCity");
+		},
 
-            this.inputText = '';
-        },
+		clickCity(city) {
+			this.$store.commit("forecast/CLICK_CITY", city.name);
+		},
 
-        autocompleteCity() {
-            this.autoComplete = true;
+		resetForm() {
+			this.$store.commit("forecast/RESET_FORM");
+		},
 
-            if (!this.inputText) {
-                this.autoComplete = false;
-            }
+		redirectToCity() {
+			this.$router.push({ name: "forecast", params: { city: this.inputText } });
+		},
 
-            axios.get(`${this.apiSearchUrl}${this.apiKey}&q=${this.inputText}`)
-                .then(res => {
-                    const data = res.data;
+		addToFavorites() {
+			this.$store.commit("forecast/ADD_TO_FAVORITES");
+		},
+	},
 
-                    data.forEach(find => {
-                        this.autocompleteCities.unshift(find)
-                        const uniqueCity = [...new Set(this.autocompleteCities.map(x => x.id))]
-                        const newUniqueCity = uniqueCity.map(id => this.autocompleteCities.find(x => x.id === id))
-                        this.autocompleteCities = newUniqueCity;
-                    })
-                })
-                .catch(() => {
-                    return this.autocompleteCities = [];
-                })
-        },
+	computed: {
+		inputText: {
+			get() {
+				return this.$store.getters["forecast/getInputText"];
+			},
+			set(newValue) {
+				this.$store.commit("forecast/INPUT_TEXT", newValue);
+			},
+		},
 
-        clickCity(e) {
-            console.log(e.target.firstChild.data);
-            this.inputText = e.target.firstChild.data;
-            this.autoComplete = false;
-        },
+		getData() {
+			const dataInfo = this.$store.getters["forecast/getForecastData"];
+			return {
+				showForecast: dataInfo.showForecast,
+				icon: dataInfo.icon,
+				text: dataInfo.text,
+				city: dataInfo.city,
+				country: dataInfo.country,
+				degree: dataInfo.degree,
+				visibleDegree: dataInfo.visibleDegree,
+				dateToday: dataInfo.dateToday,
+				dateTomorow: dataInfo.dateTomorow,
+				dateNextDay: dataInfo.dateNextDay,
+				iconToday: dataInfo.iconToday,
+				iconTomorow: dataInfo.iconTomorow,
+				iconNextDay: dataInfo.iconNextDay,
+				degreeToday: dataInfo.degreeToday,
+				degreeTomorow: dataInfo.degreeTomorow,
+				degreeNextDay: dataInfo.degreeNextDay,
+				errorMsg: dataInfo.errorMsg,
+			};
+		},
 
-        redirectToCity() {
-            this.$router.push({ name: 'forecast', params: { city: this.inputText } })
-        },
+		getError() {
+			return this.$store.getters["forecast/getError"];
+		},
 
-        resetForm() {
-            this.showForecast = false;
-            this.errorMsg = false;
-            this.autoComplete = false;
-            this.inputText = ''
-        },
+		background() {
+			return this.$store.getters["forecast/bg"];
+		},
 
-        onClick() {
-            this.redirectToCity();
-            this.searchForCity();
-        },
+		getFavorite() {
+			return this.$store.getters["forecast/getFavorites"];
+		},
 
-        addToFavorite() {
-            const favoriteCity = {
-                id: Math.floor(Math.random() * 100),
-                city: this.city,
-                icon: this.icon,
-                text: this.text,
-                temp: this.degree,
-            };
+		autocompleteIsVisible() {
+			return this.$store.getters["forecast/autoComplete"];
+		},
 
-            this.favoritesCities.unshift(favoriteCity);
-            localStorage.setItem('favorites', JSON.stringify(this.favoritesCities))
-        },
-    },
+		orderedAutoCompleteCities() {
+			return this.$store.getters["forecast/orderAutoComplete"];
+		},
 
-    computed: {
-        background() {
-            if (this.degree < 10 && this.showForecast === true) {
-                return 'coldWeather'
-            }
-            if (this.degree >= 10 && this.showForecast === true) {
-                return 'warmWeather'
-            }
-            return 'bg'
-        },
+		pera() {
+			return this.$store.getters["forecast/isCityExict"];
+		},
 
-        autocompleteCitiesWhichStartWithInput() {
-            if (this.inputText != '' && this.inputText) {
-                return this.autocompleteCities.filter((item) => item.name.toLowerCase().includes(this.inputText.toLowerCase()))
-            }
-            return this.autocompleteCities
-        },
+		buttonFav(){
+			return this.$store.getters['forecast/btnFav']
+		}
+	},
 
-        autocompleteCitiesWhichNotStartWithInput() {
-            if (this.inputText != '' && this.inputText) {
-                return this.autocompleteCities.filter((item) => !item.name.toLowerCase().includes(this.inputText.toLowerCase()))
-            }
-            return this.autocompleteCities
-        },
+	watch: {
+		"$route.params.city": function () {
+			this.nameKeeper = this.inputText;
+		},
+	},
 
-        orderedAutoCompleteCities() {
-            return [...this.autocompleteCitiesWhichStartWithInput, ...this.autocompleteCitiesWhichNotStartWithInput]
-        }
-    },
+	created() {
+		this.nameKeeper = this.$route.params.city;
+		this.inputText = this.$route.params.city;
+		this.loadCity();
+		this.getFavorite;
+	},
 
-    watch:
-    {
-        '$route.params.city': function (city) {
-            console.log(city)
-            this.nameKeeper = this.inputText;
-        },
-    },
+	beforeRouteUpdate(to) {
+		this.nameKeeper = to.params.city;
+	},
+};
 
-    created() {
-        this.nameKeeper = this.$route.params.city;
-        this.inputText = this.$route.params.city;
-        this.searchForCity();
-        this.favoritesCities = JSON.parse(localStorage.getItem('favorites') || '[]')
-    },
-
-    beforeRouteUpdate(to) {
-        this.nameKeeper = to.params.city;
-    },
-}
 </script>
 
 <style>
 .coldWeather {
-    background: url('../../assets/cold.jpg') no-repeat center center;
-    background-size: cover;
+	background: url("../../assets/cold.jpg") no-repeat center center;
+	background-size: cover;
 }
 
 .warmWeather {
-    background: url('../../assets/warm.png') no-repeat center center;
-    background-size: cover;
+	background: url("../../assets/warm.png") no-repeat center center;
+	background-size: cover;
 }
 
 .bg {
-    background: url('../../assets/bg.jpg') no-repeat center center;
-    background-size: cover;
+	background: url("../../assets/bg.jpg") no-repeat center center;
+	background-size: cover;
 }
 
 .slide-enter-active,
 .slide-leave-active {
-    transition: transform 0.5s ease;
+	transition: transform 0.5s ease;
 }
 
 .slide-enter-from,
 .slide-leave-to {
-    transform: translateY(-200%);
+	transform: translateY(-200%);
 }
 
 .fadeSlow-enter-active,
 .fadeSlow-leave-active {
-    transition: opacity .8s ease-in-out;
+	transition: opacity 0.8s ease-in-out;
 }
 
 .fadeSlow-enter-from,
 .fadeSlow-leave-to {
-    opacity: 0;
+	opacity: 0;
+}
+
+.noBtn {
+	opacity: 0;
 }
 </style>
