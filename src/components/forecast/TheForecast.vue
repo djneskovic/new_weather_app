@@ -2,26 +2,39 @@
 	<main id="main" :class="background">
 		<div class="container">
 			<div class="main">
-				<form class="form" @submit.prevent="onClick">
-					
+				<button class="logout" v-if="logout" @click="getLogout">
+					Log Out
+				</button>
+				<singup-error v-if="singupError"></singup-error>
+				<singin-error v-if="singinError"></singin-error>
+				<singup-succ v-if="singupSucc"></singup-succ>
+				<user-auth v-if="showAuth"></user-auth>
+				<form
+					class="form"
+					@submit.prevent="onClick"
+					v-if="showMain"
+				>
 					<div class="autocomplete">
-						<input 
-							type="text" 
-							class="inputText" 
-							v-model="inputText" 
-							@keyup="autoComplete" />
+						<input
+							type="text"
+							class="inputText"
+							v-model="inputText"
+							@keyup="autoComplete"
+						/>
 
 						<transition name="fadeSlow">
 							<ul v-if="autocompleteIsVisible">
-								<auto-complete 
-									@click="clickCity(city)" 
-									v-for="(city, index) in orderedAutoCompleteCities"
-									:key="index" 
-									:cityAC="city.name" 
-									:countryAC="city.country"></auto-complete>
+								<auto-complete
+									@click="clickCity(city)"
+									v-for="(
+										city, index
+									) in orderedAutoCompleteCities"
+									:key="index"
+									:cityAC="city.name"
+									:countryAC="city.country"
+								></auto-complete>
 							</ul>
 						</transition>
-
 					</div>
 
 					<div class="btns">
@@ -32,7 +45,6 @@
 							<i class="fas fa-sync-alt"></i>
 						</button>
 					</div>
-
 				</form>
 
 				<transition name="slide" mode="out-in">
@@ -43,42 +55,82 @@
 					<div class="forecast" v-if="getData.showForecast">
 						<div class="forecastCurrent">
 							<div class="left">
-								<img :src="getData.icon" :class="{ icon: !!getData.icon }" />
-								<p class="condition">{{ getData.text }}</p>
+								<img
+									:src="getData.icon"
+									:class="{ icon: !!getData.icon }"
+								/>
+								<p class="condition">
+									{{ getData.text }}
+								</p>
 							</div>
 							<div class="infos">
 								<p class="city">{{ getData.city }}</p>
-								<p class="country">{{ getData.country }}</p>
-								<p class="degree" v-if="getData.visibleDegree">
-									{{ getData.degree }}<span>&#176;</span>
+								<p class="country">
+									{{ getData.country }}
 								</p>
-								<button class="btnFav" v-if="!pera" @click="addToFavorites">
+								<p
+									class="degree"
+									v-if="getData.visibleDegree"
+								>
+									{{ getData.degree
+									}}<span>&#176;</span>
+								</p>
+								<button
+									class="btnFav"
+									v-if="!pera"
+									@click="addToFavorites"
+								>
 									Add To Favorites
 								</button>
 							</div>
 						</div>
 						<div class="forecastDays">
 							<div class="forecastDay">
-								<p class="date">{{ getData.dateToday }}</p>
-								<img :src="getData.iconToday" class="imgSmall" />
+								<p class="date">
+									{{ getData.dateToday }}
+								</p>
+								<img
+									:src="getData.iconToday"
+									class="imgSmall"
+								/>
 								<p class="degreeSmall">
 									{{ getData.degreeToday
-									}}<span v-if="getData.visibleDegree">&#176;</span>
+									}}<span
+										v-if="getData.visibleDegree"
+										>&#176;</span
+									>
 								</p>
 							</div>
 							<div class="forecastDay">
-								<p class="date">{{ getData.dateTomorow }}</p>
-								<img :src="getData.iconTomorow" class="imgSmall" />
+								<p class="date">
+									{{ getData.dateTomorow }}
+								</p>
+								<img
+									:src="getData.iconTomorow"
+									class="imgSmall"
+								/>
 								<p class="degreeSmall">
 									{{ getData.degreeTomorow
-									}}<span v-if="getData.visibleDegree">&#176;</span>
+									}}<span
+										v-if="getData.visibleDegree"
+										>&#176;</span
+									>
 								</p>
 							</div>
 							<div class="forecastDay">
-								<p class="date">{{ getData.dateNextDay }}</p>
-								<img :src="getData.iconNextDay" class="imgSmall" />
-								<p class="degreeSmall">{{ getData.degreeNextDay }}<span
-										v-if="getData.visibleDegree">&#176;</span>
+								<p class="date">
+									{{ getData.dateNextDay }}
+								</p>
+								<img
+									:src="getData.iconNextDay"
+									class="imgSmall"
+								/>
+								<p class="degreeSmall">
+									{{ getData.degreeNextDay
+									}}<span
+										v-if="getData.visibleDegree"
+										>&#176;</span
+									>
 								</p>
 							</div>
 						</div>
@@ -92,11 +144,19 @@
 <script>
 import ErrorMessage from "./ErrorMessage.vue";
 import AutoComplete from "./AutoComplete.vue";
+import UserAuth from "../auth/UserAuth.vue";
+import SingupError from "../ui/SingupError.vue";
+import SinginError from "../ui/SinginError.vue";
+import SingupSucc from "../ui/SingupSucc.vue";
 
 export default {
 	components: {
 		ErrorMessage,
 		AutoComplete,
+		UserAuth,
+		SingupError,
+		SinginError,
+		SingupSucc,
 	},
 
 	data() {
@@ -128,11 +188,20 @@ export default {
 		},
 
 		redirectToCity() {
-			this.$router.push({ name: "forecast", params: { city: this.inputText } });
+			this.$router.push({
+				name: "forecast",
+				params: { city: this.inputText },
+			});
 		},
 
 		addToFavorites() {
 			this.$store.commit("forecast/ADD_TO_FAVORITES");
+		},
+
+		getLogout() {
+			this.$store.commit("auth/getLogout");
+			this.$store.commit("forecast/DISABLE_FORECAST");
+			this.$router.replace("/forecast");
 		},
 	},
 
@@ -193,9 +262,33 @@ export default {
 			return this.$store.getters["forecast/isCityExict"];
 		},
 
-		buttonFav(){
-			return this.$store.getters['forecast/btnFav']
-		}
+		buttonFav() {
+			return this.$store.getters["forecast/btnFav"];
+		},
+
+		showMain() {
+			return this.$store.getters["auth/showMainForecast"];
+		},
+
+		showAuth() {
+			return this.$store.getters["auth/showAuth"];
+		},
+
+		singupError() {
+			return this.$store.getters["auth/singupError"];
+		},
+
+		singinError() {
+			return this.$store.getters["auth/singinError"];
+		},
+
+		singupSucc() {
+			return this.$store.getters["auth/singupSucc"];
+		},
+
+		logout() {
+			return this.$store.getters["auth/logout"];
+		},
 	},
 
 	watch: {
@@ -209,13 +302,13 @@ export default {
 		this.inputText = this.$route.params.city;
 		this.loadCity();
 		this.getFavorite;
+		this.$store.dispatch("auth/autoLogin");
 	},
 
 	beforeRouteUpdate(to) {
 		this.nameKeeper = to.params.city;
 	},
 };
-
 </script>
 
 <style>
