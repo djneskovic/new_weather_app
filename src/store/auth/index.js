@@ -1,5 +1,7 @@
 import axios from "axios";
 
+let timer;
+
 export default {
 	namespaced: true,
 
@@ -79,6 +81,9 @@ export default {
 
 			localStorage.removeItem("token");
 			localStorage.removeItem("userId");
+			localStorage.removeItem("tokenExp");
+
+			clearTimeout(timer);
 		},
 
 		getLogin(state) {
@@ -120,9 +125,18 @@ export default {
 			)
 				.then((res) => {
 					const data = res.data;
-					// console.log(data);
+					console.log(data);
+
+					const expiresIn = 300000;
+					const expDate = new Date().getTime() + expiresIn;
+
 					localStorage.setItem("token", data.idToken);
 					localStorage.setItem("userId", data.localId);
+					localStorage.setItem("tokenExp", expDate);
+
+					timer = setTimeout(() => {
+						context.commit("getLogout");
+					}, expiresIn);
 
 					context.commit("setUser", {
 						userId: data.localId,
@@ -139,6 +153,15 @@ export default {
 		autoLogin(context) {
 			const token = localStorage.getItem("token");
 			const userId = localStorage.getItem("userId");
+			const tokenExp = localStorage.getItem("tokenExp");
+
+			const expiresIn = +tokenExp - new Date().getTime();
+
+			if (expiresIn < 0) return;
+
+			timer = setTimeout(() => {
+				context.commit("getLogout");
+			}, expiresIn);
 
 			if (token && userId) {
 				context.commit("getLogin");

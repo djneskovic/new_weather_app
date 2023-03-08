@@ -1,4 +1,7 @@
 <template>
+	<div v-if="isLoading">
+		<base-spinner></base-spinner>
+	</div>
 	<div class="auth-card">
 		<p class="auth-title">Please Login/Sign Up to see forecast</p>
 		<input
@@ -27,16 +30,24 @@
 </template>
 
 <script>
+import BaseSpinner from "../ui/BaseSpinner.vue";
 export default {
+	components: {
+		BaseSpinner,
+	},
+
 	data() {
 		return {
 			email: "",
 			password: "",
 			validForm: false,
+			isLoading: false,
 		};
 	},
 	methods: {
 		singup() {
+			this.isLoading = true;
+
 			if (
 				!this.email ||
 				!this.email.includes("@") ||
@@ -51,6 +62,10 @@ export default {
 			}
 
 			setTimeout(() => {
+				this.isLoading = false;
+			}, 1000);
+
+			setTimeout(() => {
 				this.validForm = false;
 				this.successfulSingup = false;
 			}, 5000);
@@ -59,6 +74,7 @@ export default {
 		},
 
 		login() {
+			this.isLoading = true;
 			if (
 				!this.email ||
 				!this.email.includes("@") ||
