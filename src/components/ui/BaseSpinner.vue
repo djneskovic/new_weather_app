@@ -1,112 +1,60 @@
 <template>
-	<div class="spinner">
-		<div class="lds-roller">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>
-	</div>
+	<span class="loader"></span>
 </template>
 
 <style scoped>
-.spinner {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
+.loader {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 6rem;
+}
+.loader:before,
+.loader:after {
+	content: "";
+	position: absolute;
+	border-radius: 50%;
+	animation: pulsOut 1s ease-in-out infinite;
+	filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
+}
+.loader:before {
+	width: 100%;
+	padding-bottom: 100%;
+	box-shadow: inset 0 0 0 1rem #01071a;
+	animation-name: pulsIn;
+}
+.loader:after {
+	width: calc(100% - 2rem);
+	padding-bottom: calc(100% - 2rem);
+	box-shadow: 0 0 0 0 #fff;
 }
 
-.lds-roller {
-	display: inline-block;
-	position: relative;
-	width: 80px;
-	height: 80px;
-}
-.lds-roller div {
-	animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	transform-origin: 40px 40px;
-}
-.lds-roller div:after {
-	content: " ";
-	display: block;
-	position: absolute;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	background: #01071a;
-	margin: -4px 0 0 -4px;
-}
-.lds-roller div:nth-child(1) {
-	animation-delay: -0.036s;
-}
-.lds-roller div:nth-child(1):after {
-	top: 63px;
-	left: 63px;
-}
-.lds-roller div:nth-child(2) {
-	animation-delay: -0.072s;
-}
-.lds-roller div:nth-child(2):after {
-	top: 68px;
-	left: 56px;
-}
-.lds-roller div:nth-child(3) {
-	animation-delay: -0.108s;
-}
-.lds-roller div:nth-child(3):after {
-	top: 71px;
-	left: 48px;
-}
-.lds-roller div:nth-child(4) {
-	animation-delay: -0.144s;
-}
-.lds-roller div:nth-child(4):after {
-	top: 72px;
-	left: 40px;
-}
-.lds-roller div:nth-child(5) {
-	animation-delay: -0.18s;
-}
-.lds-roller div:nth-child(5):after {
-	top: 71px;
-	left: 32px;
-}
-.lds-roller div:nth-child(6) {
-	animation-delay: -0.216s;
-}
-.lds-roller div:nth-child(6):after {
-	top: 68px;
-	left: 24px;
-}
-.lds-roller div:nth-child(7) {
-	animation-delay: -0.252s;
-}
-.lds-roller div:nth-child(7):after {
-	top: 63px;
-	left: 17px;
-}
-.lds-roller div:nth-child(8) {
-	animation-delay: -0.288s;
-}
-.lds-roller div:nth-child(8):after {
-	top: 56px;
-	left: 12px;
-}
-@keyframes lds-roller {
+@keyframes pulsIn {
 	0% {
-		transform: rotate(0deg);
+		box-shadow: inset 0 0 0 1rem #fff;
+		opacity: 1;
+	}
+	50%,
+	100% {
+		box-shadow: inset 0 0 0 0 #fff;
+		opacity: 0;
+	}
+}
+
+@keyframes pulsOut {
+	0%,
+	50% {
+		box-shadow: 0 0 0 0 #fff;
+		opacity: 0;
 	}
 	100% {
-		transform: rotate(360deg);
+		box-shadow: 0 0 0 1rem #fff;
+		opacity: 1;
 	}
 }
 </style>

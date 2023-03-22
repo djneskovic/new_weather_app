@@ -125,7 +125,7 @@ export default {
 			)
 				.then((res) => {
 					const data = res.data;
-					console.log(data);
+					// console.log(data);
 
 					const expiresIn = 300000;
 					const expDate = new Date().getTime() + expiresIn;

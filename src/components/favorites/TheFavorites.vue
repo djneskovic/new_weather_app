@@ -1,65 +1,65 @@
 <template>
-    <div id="favorites" class="bg">
-        <div class="container">
-            <ul>
-                <transition-group name="slide" tag="ul" mode="in-out">
-
-                    <FavoriteItems v-for="town in towns" :key="town.id" :id="town.id" :city="town.city"
-                        :icon="town.icon" :text="town.text" :temp="town.temp" />
-
-                </transition-group>
-            </ul>
-        </div>
-    </div>
+	<div id="favorites" class="bg">
+		<div class="container">
+			<ul>
+				<transition-group name="slide" tag="ul" mode="in-out">
+					<FavoriteItems
+						v-for="town in towns"
+						:key="town.id"
+						:id="town.id"
+						:city="town.city"
+						:icon="town.icon"
+						:text="town.text"
+						:temp="town.temp"
+					/>
+				</transition-group>
+			</ul>
+		</div>
+	</div>
 </template>
 
 <script>
-import FavoriteItems from './FavoriteItems.vue'
+import FavoriteItems from "./FavoriteItems.vue";
 export default {
-    components: {
-        FavoriteItems
-    },
-    data() {
-        return {
-            towns: [],
-        }
-    },
+	components: {
+		FavoriteItems,
+	},
 
-    methods: {
-        getCity() {
-            const localStorageItem = localStorage.getItem('favorites')
-            if (localStorageItem) {
-                this.towns = JSON.parse(localStorageItem)
-            }
-        },
-        removeFav(id) {
-            const favIndex = this.towns.findIndex(res => res.id === id)
-            this.towns.splice(favIndex, 1)
-            localStorage.setItem('favorites', JSON.stringify(this.towns))
-        }
-    },
+	computed: {
+		towns() {
+			return this.$store.getters["favorites/getTowns"];
+		},
+	},
 
-    provide() {
-        return {
-            removeFav: this.removeFav
-        }
-    },
+	methods: {
+		getCity() {
+			this.$store.commit("favorites/GET_CITY");
+		},
+		removeFav(id) {
+			this.$store.commit("favorites/REMOVE_FAV", id);
+		},
+	},
 
-    created() {
-        this.getCity()
-    }
-}
+	provide() {
+		return {
+			removeFav: this.removeFav,
+		};
+	},
 
+	created() {
+		this.getCity();
+	},
+};
 </script>
 
 <style scoped>
 .slide-enter-active,
 .slide-leave-active {
-    transition: transform 1s ease-in-out;
+	transition: transform 1s ease-in-out;
 }
 
 .slide-enter-from,
 .slide-leave-to {
-    transform: translateX(200%);
+	transform: translateX(200%);
 }
 </style>
