@@ -103,6 +103,11 @@ export default {
 			setTimeout(() => {
 				this.validForm = false;
 			}, 5000);
+
+			setTimeout(() => {
+				this.isLoading = false;
+			}, 500);
+
 			this.email = "";
 			this.password = "";
 		},
