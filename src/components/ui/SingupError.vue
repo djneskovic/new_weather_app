@@ -26,11 +26,10 @@ export default {
 	height: 100%;
 }
 .error-singup {
-	background-color: rgba(255, 255, 255, 0.5);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	background-color: white;
+	transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+		0 0 0 2px rgb(190, 190, 190), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
 	text-align: center;
 	padding: 3rem 1rem;
 	font-size: 1.5rem;
@@ -44,13 +43,43 @@ export default {
 }
 
 .btn-error {
-	border: none;
-	border-radius: 10px;
-	background-color: #01071a;
-	color: #f6bc84;
-	padding: 0.4rem 2rem;
 	margin-top: 1rem;
+	padding: 10px 15px;
+	border: unset;
+	border-radius: 10px;
+	color: #f6bc84;
+	z-index: 1;
+	background: #01071a;
+	position: relative;
+	font-size: 17px;
+	-webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+	box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+	transition: all 250ms;
+	overflow: hidden;
 	cursor: pointer;
+}
+
+.btn-error::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0;
+	border-radius: 10px;
+	background-color: #f6bc84;
+	z-index: -1;
+	-webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+	box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+	transition: all 250ms;
+}
+
+.btn-error:hover {
+	color: #01071a;
+}
+
+.btn-error:hover::before {
+	width: 100%;
 }
 
 p {
