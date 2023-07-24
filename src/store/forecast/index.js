@@ -245,7 +245,8 @@ export default {
 		isCityExict(state) {
 			// const cities = getters.getFavorites;
 			const cityA = state.city;
-			const cities = JSON.parse(localStorage.getItem("favorites"));
+			const cities =
+				JSON.parse(localStorage.getItem("favorites")) || [];
 
 			return cities.some((city) => city.city === cityA);
 		},
