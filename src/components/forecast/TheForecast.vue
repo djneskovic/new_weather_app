@@ -77,7 +77,7 @@
 								</p>
 								<button
 									class="btnFav"
-									v-if="!pera"
+									v-if="!pera && showAddToFavButton"
 									@click="addToFavorites"
 								>
 									Add To Favorites
@@ -162,6 +162,7 @@ export default {
 	data() {
 		return {
 			nameKeeper: "",
+			showAddToFavButton: true,
 		};
 	},
 
@@ -196,6 +197,7 @@ export default {
 
 		addToFavorites() {
 			this.$store.commit("forecast/ADD_TO_FAVORITES");
+			this.showAddToFavButton = false;
 		},
 
 		getLogout() {
