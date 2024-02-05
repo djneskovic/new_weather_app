@@ -2,18 +2,14 @@
 	<main id="main" :class="background">
 		<div class="container">
 			<div class="main">
-				<button class="logout" v-if="logout" @click="getLogout">
+				<!-- <button class="logout" v-if="logout" @click="getLogout">
 					Log Out
 				</button>
 				<singup-error v-if="singupError"></singup-error>
 				<singin-error v-if="singinError"></singin-error>
 				<singup-succ v-if="singupSucc"></singup-succ>
-				<user-auth v-if="showAuth"></user-auth>
-				<form
-					class="form"
-					@submit.prevent="onClick"
-					v-if="showMain"
-				>
+				<user-auth v-if="showAuth"></user-auth> -->
+				<form class="form" @submit.prevent="onClick">
 					<div class="autocomplete">
 						<input
 							type="text"
@@ -144,19 +140,19 @@
 <script>
 import ErrorMessage from "./ErrorMessage.vue";
 import AutoComplete from "./AutoComplete.vue";
-import UserAuth from "../auth/UserAuth.vue";
-import SingupError from "../ui/SingupError.vue";
-import SinginError from "../ui/SinginError.vue";
-import SingupSucc from "../ui/SingupSucc.vue";
+// import UserAuth from "../auth/UserAuth.vue";
+// import SingupError from "../ui/SingupError.vue";
+// import SinginError from "../ui/SinginError.vue";
+// import SingupSucc from "../ui/SingupSucc.vue";
 
 export default {
 	components: {
 		ErrorMessage,
 		AutoComplete,
-		UserAuth,
-		SingupError,
-		SinginError,
-		SingupSucc,
+		// UserAuth,
+		// SingupError,
+		// SinginError,
+		// SingupSucc,
 	},
 
 	data() {
@@ -304,7 +300,7 @@ export default {
 		this.inputText = this.$route.params.city;
 		this.loadCity();
 		this.getFavorite;
-		this.$store.dispatch("auth/autoLogin");
+		// this.$store.dispatch("auth/autoLogin");
 	},
 
 	beforeRouteUpdate(to) {
